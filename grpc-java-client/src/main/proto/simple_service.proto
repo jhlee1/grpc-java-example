@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "lee.joohan.protos.simple";
+option java_outer_classname = "SimpleProto";
+option objc_class_prefix = "LF";
+
+package simple;
+
+service SimpleService {
+  rpc singleCall(SimpleMessage) returns (SimpleMessage) {}
+  rpc singleWaitCall(WaitMessage) returns(WaitResponse) {}
+  rpc sendStreamCall(stream SimpleMessage) returns (StreamInfo) {}
+  rpc receiveStreamCall(StreamInfo) returns (stream SimpleMessage) {}
+}
+
+message SimpleMessage {
+  string message = 1;
+  int32 order = 2;
+}
+
+message WaitMessage {
+  int32 order = 1;
+  int32 timeInMilliseconds = 2;
+}
+
+message WaitResponse {
+  int32 order = 1;
+  int32 timeInMilliseconds = 2;
+}
+
+
+
+message StreamInfo {
+  int32 size = 1;
+}
