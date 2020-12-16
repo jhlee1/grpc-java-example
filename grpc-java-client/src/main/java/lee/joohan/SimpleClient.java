@@ -92,13 +92,13 @@ public class SimpleClient {
     IntStream.range(0, 100)
             .parallel()
             .forEach(it -> {
-              requestObserver.onNext(
-                    SimpleMessage.newBuilder()
-                            .setOrder(it)
-                            .build()
-                    );
+                      requestObserver.onNext(
+                              SimpleMessage.newBuilder()
+                                      .setOrder(it)
+                                      .build()
+                      );
                       System.out.println("Sending " + it);
-            }
+                    }
             );
 
     requestObserver.onCompleted();

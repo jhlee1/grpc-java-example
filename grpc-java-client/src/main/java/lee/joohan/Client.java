@@ -6,7 +6,7 @@ import lee.joohan.protos.simple.SimpleMessage;
 
 
 public class Client {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress("localhost", 6666)
                 .useTransportSecurity()
@@ -14,9 +14,13 @@ public class Client {
                 .build();
 
         SimpleClient simpleClient = new SimpleClient(channel);
+
+
+        streamingRequestTest(simpleClient);
+//        asyncUnaryCallTest(simpleClient);
     }
 
-    public void blockingUnaryCallTest(SimpleClient simpleClient) {
+    public static void blockingUnaryCallTest(SimpleClient simpleClient) {
         // It simply sends 100 request.
         // I did this to see if the stream id is changed.
         for (int i = 0; i < 100; i++) {
@@ -24,7 +28,7 @@ public class Client {
         }
     }
 
-    public void asyncUnaryCallTest(SimpleClient simpleClient) throws InterruptedException {
+    public static void asyncUnaryCallTest(SimpleClient simpleClient) throws InterruptedException {
         simpleClient.singleCall(v -> System.out.println("The current thread is: " + Thread.currentThread().getName()));
         simpleClient.singleCall(v -> System.out.println("The current thread is: " + Thread.currentThread().getName()));
         simpleClient.singleCall(v -> System.out.println("The current thread is: " + Thread.currentThread().getName()));
@@ -32,7 +36,7 @@ public class Client {
         Thread.sleep(10000);
     }
 
-    public void maxThreadPoolTest(SimpleClient simpleClient) throws InterruptedException {
+    public static void maxThreadPoolTest(SimpleClient simpleClient) throws InterruptedException {
 
         // Each call takes 5 seconds to execute on the server
         // You have to limit the size of executor thread pool on the server before run this test
@@ -51,8 +55,9 @@ public class Client {
         Thread.sleep(20000);
     }
 
-    public void streamingRequestTest(SimpleClient simpleClient) {
+    public static void streamingRequestTest(SimpleClient simpleClient) throws InterruptedException {
         simpleClient.sendStreaming();
+        Thread.sleep(5000);
     }
 
 }

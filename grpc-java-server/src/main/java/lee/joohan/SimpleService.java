@@ -40,8 +40,9 @@ public class SimpleService extends SimpleServiceGrpc.SimpleServiceImplBase {
     @Override
     public StreamObserver<SimpleMessage> sendStreamCall(StreamObserver<StreamInfo> responseObserver) {
 
-        return new StreamObserver<SimpleMessage>() {
+        return new StreamObserver<>() {
             int size = 0;
+
             @Override
             public void onNext(SimpleMessage value) {
                 System.out.println("stream call " + value.getOrder() + " on Thread" + Thread.currentThread());
